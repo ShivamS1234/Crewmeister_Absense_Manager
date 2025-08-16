@@ -56,10 +56,10 @@ void main() {
 
       // Stub the loadString method of the mock AssetBundle
       when(
-        mockAssetBundle.loadString('assets/absences.json'),
+        mockAssetBundle.loadString('assets/json/absences.json'),
       ).thenAnswer((_) async => absencesJson);
       when(
-        mockAssetBundle.loadString('assets/members.json'),
+        mockAssetBundle.loadString('assets/json/members.json'),
       ).thenAnswer((_) async => membersJson);
 
       final absences = await dataService.loadAbsences();
@@ -132,10 +132,10 @@ void main() {
       ''';
 
       when(
-        mockAssetBundle.loadString('assets/absences.json'),
+        mockAssetBundle.loadString('assets/json/absences.json'),
       ).thenAnswer((_) async => absencesJson);
       when(
-        mockAssetBundle.loadString('assets/members.json'),
+        mockAssetBundle.loadString('assets/json/members.json'),
       ).thenAnswer((_) async => membersJson);
 
       final absences = await dataService.loadAbsences();
@@ -171,10 +171,10 @@ void main() {
       ''';
 
       when(
-        mockAssetBundle.loadString('assets/absences.json'),
+        mockAssetBundle.loadString('assets/json/absences.json'),
       ).thenAnswer((_) async => invalidJson);
       when(
-        mockAssetBundle.loadString('assets/members.json'),
+        mockAssetBundle.loadString('assets/json/members.json'),
       ).thenAnswer((_) async => membersJson);
 
       expect(() => dataService.loadAbsences(), throwsA(isA<FormatException>()));
@@ -182,10 +182,10 @@ void main() {
 
     test('loadAbsences should throw an exception on missing files', () async {
       when(
-        mockAssetBundle.loadString('assets/absences.json'),
+        mockAssetBundle.loadString('assets/json/absences.json'),
       ).thenThrow(FlutterError('Unable to load asset'));
       when(
-        mockAssetBundle.loadString('assets/members.json'),
+        mockAssetBundle.loadString('assets/json/members.json'),
       ).thenAnswer((_) async => '[]'); // Return empty list for members
 
       expect(() => dataService.loadAbsences(), throwsA(isA<FlutterError>()));

@@ -8,12 +8,12 @@ class DataService {
   Future<List<Absence>> loadAbsences() async {
     try {
       final String absencesString = await rootBundle.loadString(
-        'assets/absences.json',
+        'assets/json/absences.json',
       );
       final List<dynamic> absencesJson = jsonDecode(absencesString)['payload'];
 
       final String membersString = await rootBundle.loadString(
-        'assets/members.json',
+        'assets/json/members.json',
       );
       final List<dynamic> membersJson = jsonDecode(membersString)['payload'];
 

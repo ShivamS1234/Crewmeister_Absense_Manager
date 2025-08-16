@@ -1,7 +1,7 @@
 import 'package:myapp/models/member.dart';
 
 class Absence {
-  final String id;
+  final int id;
   final String userId;
   final DateTime startDate;
   final DateTime endDate;
@@ -35,7 +35,7 @@ class Absence {
 
   factory Absence.fromJson(Map<String, dynamic> json) {
     return Absence(
-      id: json['id'] as String,
+      id: json['id'] as int,
       userId: json['userId'] as String,
       startDate: DateTime.parse(json['startDate'] as String),
       endDate: DateTime.parse(json['endDate'] as String),

@@ -1,5 +1,5 @@
 class Member {
-  final String id;
+  final int id;
   final String name;
   final int crewId;
   final String image;
@@ -15,7 +15,7 @@ class Member {
 
   factory Member.fromJson(Map<String, dynamic> json) {
     return Member(
-      id: json['id'] as String,
+      id: json['id'] as int,
       name: json['name'] as String,
       crewId: json['crewId'] as int,
       image: json['image'] as String,
