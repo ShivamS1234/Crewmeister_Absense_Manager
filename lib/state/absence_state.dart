@@ -2,21 +2,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/absence.dart';
 import '../services/data_service.dart';
 
-/// Provider for the DataService.
 final dataServiceProvider = Provider<DataService>((ref) {
   return DataService();
 });
 
-/// FutureProvider that loads the list of absences from the DataService.
 final absencesProvider = FutureProvider<List<Absence>>((ref) async {
   final dataService = ref.read(dataServiceProvider);
   return dataService.loadAbsences();
 });
-
-/// StateProvider for the current page number (1-based).
-final currentPageProvider = StateProvider<int>((ref) => 1);
-
-final itemsPerPageProvider = Provider<int>((ref) => 10);
 
 /// StateProvider for the absence type filter.
 final absenceTypeFilterProvider = StateProvider<String?>((ref) => null);
@@ -37,13 +30,13 @@ final filteredAbsencesProvider = Provider<AsyncValue<List<Absence>>>((ref) {
         }
 
         return absences.where((absence) {
-          bool typeMatch = selectedType == null || absence.type == selectedType;
+          bool typeMatch = selectedType == null || absence.type.toLowerCase() == selectedType.toLowerCase();
           bool dateMatch =
               selectedDate == null ||
-              (absence.startDate.isBefore(
+              (absence.startDate!.isBefore(
                     selectedDate.add(const Duration(days: 1)),
                   ) &&
-                  absence.endDate.isAfter(
+                  absence.endDate!.isAfter(
                     selectedDate.subtract(const Duration(days: 1)),
                   ));
 
@@ -51,6 +44,10 @@ final filteredAbsencesProvider = Provider<AsyncValue<List<Absence>>>((ref) {
         }).toList();
       })
       .when(
+        // Pagination logic applied after filtering
+        // TODO: Implement more efficient pagination if dealing with very large datasets
+        // This current approach filters all data then paginates, which is fine for smaller sets
+        // but could be optimized for performance with larger datasets.
         data: (absences) {
           final currentPage = ref.watch(currentPageProvider);
           final itemsPerPage = ref.watch(itemsPerPageProvider);
@@ -64,8 +61,10 @@ final filteredAbsencesProvider = Provider<AsyncValue<List<Absence>>>((ref) {
         error: (error, stackTrace) => AsyncValue.error(error, stackTrace),
       );
 });
+final itemsPerPageProvider = Provider<int>((ref) => 10);
+final currentPageProvider = StateProvider<int>((ref) => 1);
 
-/// Provider that returns the total number of filtered absences.
+// Provider that returns the total number of filtered absences before pagination.
 final totalFilteredAbsencesProvider = Provider<AsyncValue<int>>((ref) {
   final filteredAbsencesAsyncValue = ref.watch(filteredAbsencesProvider);
   return filteredAbsencesAsyncValue.whenData((absences) => absences.length);

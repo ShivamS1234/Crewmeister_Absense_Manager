@@ -10,7 +10,6 @@ class AbsenceListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // This function will generate an iCal content string for the absence
     void generateICAL() async {
       final String icalContent =
           '''BEGIN:VCALENDAR
@@ -19,10 +18,10 @@ PRODID:-//Absence Manager//EN
 BEGIN:VEVENT
 DTSTAMP:${DateFormat("yyyyMMdd'T'HHmmss'Z'").format(DateTime.now().toUtc())}
 UID:${absence.id}@absencemanager.com
-DTSTART:${DateFormat("yyyyMMdd").format(absence.startDate)}
-DTEND:${DateFormat("yyyyMMdd").format(absence.endDate.add(const Duration(days: 1)))}
+DTSTART:${DateFormat("yyyyMMdd").format(absence.startDate!)}
+DTEND:${DateFormat("yyyyMMdd").format(absence.endDate!.add(const Duration(days: 1)))}
 SUMMARY:${absence.member?.name ?? 'Absence'} - ${absence.type}
-DESCRIPTION:Status: ${absence.status}\\nMember Note: ${absence.memberNote ?? 'N/A'}\\nAdmitter Note: ${absence.admitterNote ?? 'N/A'}
+DESCRIPTION:Member Note: ${absence.memberNote ?? 'N/A'}\\nAdmitter Note: ${absence.admitterNote ?? 'N/A'}
 END:VEVENT
 END:VCALENDAR''';
 
@@ -45,7 +44,7 @@ END:VCALENDAR''';
 
     final DateFormat formatter = DateFormat('yyyy-MM-dd');
     final String period =
-        '${formatter.format(absence.startDate)} to ${formatter.format(absence.endDate)}';
+        '${formatter.format(absence.startDate!)} to ${formatter.format(absence.endDate!)}';
 
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
@@ -62,7 +61,7 @@ END:VCALENDAR''';
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Member: ${absence.member?.name ?? 'N/A'}', // Assuming memberName is added to Absence model
+                        'Member: ${absence.member?.name ?? 'N/A'}', 
                         style: const TextStyle(
                           fontSize: 16.0,
                           fontWeight: FontWeight.bold,
@@ -72,8 +71,8 @@ END:VCALENDAR''';
                       Text('Type: ${absence.type}'),
                       const SizedBox(height: 4.0),
                       Text('Period: $period'),
-                      const SizedBox(height: 4.0),
-                      Text('Status: ${absence.status}'),
+                      // const SizedBox(height: 4.0),
+                      // Text('Status: ${absence.status}'),
                       if (absence.memberNote != null &&
                           absence.memberNote!.isNotEmpty)
                         Padding(
@@ -89,7 +88,7 @@ END:VCALENDAR''';
                               ),
                             )
                           : Text(
-                              'Member: ${absence.member?.name ?? 'N/A'}', // Access member name from the associated Member object
+                              'Member: ${absence.member?.name ?? 'N/A'}', 
                               style: const TextStyle(
                                 fontSize: 16.0,
                                 fontWeight: FontWeight.bold,
@@ -99,8 +98,8 @@ END:VCALENDAR''';
                       Text('Type: ${absence.type}'),
                       const SizedBox(height: 4.0),
                       Text('Period: $period'),
-                      const SizedBox(height: 4.0),
-                      Text('Status: ${absence.status}'),
+                      // const SizedBox(height: 4.0),
+                      // Text('Status: ${absence.status}'),
                       if (absence.memberNote != null &&
                           absence.memberNote!.isNotEmpty)
                         Padding(

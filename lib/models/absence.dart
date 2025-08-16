@@ -2,16 +2,18 @@ import 'package:myapp/models/member.dart';
 
 class Absence {
   final int id;
-  final String userId;
-  final DateTime startDate;
-  final DateTime endDate;
+  final int userId;
+  final DateTime? startDate;
+  final DateTime? endDate;
   final String type;
   final String? memberNote;
-  final String status;
-  final String? admitterId;
+  // final String status;
+  final int? admitterId;
   final String? admitterNote;
-  Member? member; // Add this field to store the associated Member object
+  Member? member;
   final DateTime? confirmedAt;
+  final String? image;
+  final String? rejectionReason;
   final DateTime createdAt;
   final int crewId;
   final DateTime? rejectedAt;
@@ -20,14 +22,16 @@ class Absence {
     required this.id,
     required this.userId,
     required this.startDate,
-    required this.endDate,
+    this.endDate,
     required this.type,
     this.memberNote,
-    this.member, // Add this to the constructor
-    required this.status,
+    this.member,
+    // required this.status,
     this.admitterId,
     this.admitterNote,
+    this.image,
     this.confirmedAt,
+    this.rejectionReason,
     required this.createdAt,
     required this.crewId,
     this.rejectedAt,
@@ -36,15 +40,20 @@ class Absence {
   factory Absence.fromJson(Map<String, dynamic> json) {
     return Absence(
       id: json['id'] as int,
-      userId: json['userId'] as String,
-      startDate: DateTime.parse(json['startDate'] as String),
-      endDate: DateTime.parse(json['endDate'] as String),
+      userId: json['userId'] as int,
+      startDate: json['startDate'] != null
+          ? DateTime.parse(json['startDate'] as String)
+          : null,
+      endDate: json['endDate'] != null
+          ? DateTime.parse(json['endDate'] as String)
+          : null,
       type: json['type'] as String,
       memberNote: json['memberNote'] as String?,
-      status: json['status'] as String,
-      admitterId: json['admitterId'] as String?,
+      // status: json['status'] as String,
+      admitterId: json['admitterId'] as int?,
       admitterNote: json['admitterNote'] as String?,
       // member: null, // We will link the member in the DataService
+      image: json['image'] as String?,
       confirmedAt: json['confirmedAt'] != null
           ? DateTime.parse(json['confirmedAt'] as String)
           : null,

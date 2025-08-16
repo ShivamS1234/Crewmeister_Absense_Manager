@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:myapp/state/absence_state.dart'; // Assuming absence_state.dart is in this path
+import 'package:myapp/state/absence_state.dart';
 import 'package:myapp/widgets/absence_list_item.dart';
-import 'package:myapp/widgets/absence_filters.dart'; // Assuming absence_filters.dart is in this path
+import 'package:myapp/widgets/absence_filters.dart';
 
 class AbsenceListScreen extends ConsumerWidget {
   const AbsenceListScreen({Key? key}) : super(key: key);
@@ -45,7 +45,7 @@ class AbsenceListScreen extends ConsumerWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text('Total Absences: $totalAbsences'),
+                      child: Text('Total Absences: ${totalAbsences.value}'),
                     ),
                     Expanded(
                       child: ListView.builder(
